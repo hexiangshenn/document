@@ -14,7 +14,7 @@
     <!--父级项目不需要打包所有packging的类型为pom-->
     <packaging>pom</packaging>
     <modules>
-        <module>mingrui-shop-service-xxx</module>
+        <module>mingrui-shop-service-api-xxx</module>
     </modules>
     <dependencies>
         <!-- SpringBoot-整合Web组件 -->

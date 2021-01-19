@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mingrui-shop-service-xxx</artifactId>
+    <artifactId>mingrui-shop-service-api-xxx</artifactId>
 
     <dependencies>
         <!--帮助开发人员快速生成API文档-->
@@ -24,7 +24,6 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
         </dependency>
-
     </dependencies>
 
 </project>
