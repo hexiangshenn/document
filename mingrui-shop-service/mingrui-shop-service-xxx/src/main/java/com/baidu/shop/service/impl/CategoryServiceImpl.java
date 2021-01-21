@@ -8,6 +8,7 @@ import com.baidu.shop.service.CategoryService;
 import com.google.gson.JsonObject;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -53,4 +54,28 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         return this.setResultSuccess();
     }
 
+    @Transactional
+    @Override//删除
+    public Result<JsonObject> deleteById(Integer id) {
+        if (null == id || id <= 0) return this.setResultError("id不合法");
+
+        CategoryEntity categoryEntity = categoryMapper.selectByPrimaryKey(id);
+        if (null == categoryEntity) return this.setResultError("数据不存在");
+
+        if (categoryEntity.getIsParent() == 1) return this.setResultError("当前节点为父节点");
+
+        Example example = new Example(categoryEntity.getClass());
+        example.createCriteria().andEqualTo("parentId",categoryEntity.getParentId());
+
+        List<CategoryEntity> categoryEntities = categoryMapper.selectByExample(example);
+        if (categoryEntities.size() <= 1){
+            CategoryEntity categoryEntity1 = new CategoryEntity();
+            categoryEntity1.setParentId(0);
+            categoryEntity1.setId(categoryEntity.getParentId());
+            categoryMapper.updateByPrimaryKeySelective(categoryEntity1);
+        }
+
+        categoryMapper.deleteByPrimaryKey(id);
+        return this.setResultSuccess();
+    }
 }
