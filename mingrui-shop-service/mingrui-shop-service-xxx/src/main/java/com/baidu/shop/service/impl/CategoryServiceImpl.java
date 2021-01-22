@@ -70,7 +70,7 @@ public class CategoryServiceImpl extends BaseApiService implements CategoryServi
         List<CategoryEntity> categoryEntities = categoryMapper.selectByExample(example);
         if (categoryEntities.size() <= 1){
             CategoryEntity categoryEntity1 = new CategoryEntity();
-            categoryEntity1.setParentId(0);
+            categoryEntity1.setIsParent(0);
             categoryEntity1.setId(categoryEntity.getParentId());
             categoryMapper.updateByPrimaryKeySelective(categoryEntity1);
         }
