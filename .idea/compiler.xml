@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mingrui-shop-basic-eureka-server" />
+        <module name="mingrui-shop-basic-upload-server" />
         <module name="mingrui-shop-service-api-xxx" />
         <module name="mingrui-shop-basic-zuul-server" />
         <module name="mingrui-shop-common-core" />
@@ -17,6 +18,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="mingrui-shop-basic-eureka-server" options="-parameters" />
+      <module name="mingrui-shop-basic-upload-server" options="-parameters" />
       <module name="mingrui-shop-basic-zuul-server" options="-parameters" />
       <module name="mingrui-shop-basics" options="-parameters" />
       <module name="mingrui-shop-commoms" options="-parameters" />
