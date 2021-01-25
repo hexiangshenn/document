@@ -28,7 +28,7 @@ public interface BrandService {
 
     @ApiOperation(value = "新增品牌")
     @PostMapping(value = "brand/save")
-    Result<JSONObject> saveBrandInfo(@Validated({MingruiOperation.Add.class}) @RequestBody BrandDTO brandDTO);
+    Result<JSONObject> saveBrandInfo(@RequestBody BrandDTO brandDTO);
 
     @ApiOperation(value = "修改品牌")
     @PutMapping(value = "brand/save")

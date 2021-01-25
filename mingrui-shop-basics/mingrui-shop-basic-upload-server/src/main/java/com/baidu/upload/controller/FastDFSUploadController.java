@@ -22,7 +22,7 @@ import java.io.InputStream;
  **/
 @RestController
 @RequestMapping(value = "upload")
-@CrossOrigin(origins = "http://manage.mrshop.com")
+//@CrossOrigin(origins = "http://manage.mrshop.com")
 @Slf4j
 public class FastDFSUploadController {
     //图片服务器的地址

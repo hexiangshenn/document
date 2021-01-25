@@ -19,6 +19,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--引入common工程代码-->
         <dependency>
             <groupId>com.baidu</groupId>
             <artifactId>mingrui-shop-common-core</artifactId>

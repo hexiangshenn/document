@@ -14,7 +14,7 @@ fdfs:
     width: 60
     height: 60
   tracker-list: # tracker地址
-    - 81.70.218.5:22
+    - 81.70.218.5:22122
 mingrui:
   upload:
     path:
