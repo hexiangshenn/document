@@ -57,6 +57,7 @@ public class BrandServiceImpl extends BaseApiService implements BrandService{
         example.createCriteria().andLike("name","%"+ brandEntity.getName() +"%");
 
         List<BrandEntity> brandEntityList = brandMapper.selectByExample(example);
+        //实例化pageInfo,把查询到的集合放到pageInfo里面,返回给vue
         PageInfo<BrandEntity> pageInfo = new PageInfo<>(brandEntityList);
         return this.setResultSuccess(pageInfo);
     }
@@ -66,32 +67,11 @@ public class BrandServiceImpl extends BaseApiService implements BrandService{
     public Result<JSONObject> saveBrandInfo(BrandDTO brandDTO) {
         BrandEntity brandEntity = BaiduBeanUtil.copyProperties(brandDTO, BrandEntity.class);
 
+        brandEntity.setLetter(PinYinUtil.getUpperCase(String.valueOf(brandEntity.getName().toCharArray()[0]),false).toCharArray()[0]);
+
         brandMapper.insertSelective(brandEntity);
 
-        String categories = brandDTO.getCategories();
-        if (StringUtils.isEmpty(brandDTO.getCategories())) return this.setResultError("");
-
-        List<CategoryBrandEntity> categoryBrandEntities = new ArrayList<>();
-
-        if (categories.contains(",")){
-            String[] categoryArr = categories.split(",");
-
-            for (String s : categoryArr){
-                CategoryBrandEntity categoryBrandEntity = new CategoryBrandEntity();
-
-                categoryBrandEntity.setBrandId(brandEntity.getId());
-                categoryBrandEntity.setCategoryId(Integer.valueOf(s));
-                categoryBrandEntities.add(categoryBrandEntity);
-            }
-            categoryBrandMapper.insertList(categoryBrandEntities);
-        }else{
-            CategoryBrandEntity categoryBrandEntity = new CategoryBrandEntity();
-
-            categoryBrandEntity.setBrandId(brandEntity.getId());
-            categoryBrandEntity.setCategoryId(Integer.valueOf(categories));
-
-            categoryBrandMapper.insert(categoryBrandEntity);
-        }
+        this.insertCategoryBrandList(brandDTO.getCategories(), brandEntity.getId());
         return this.setResultSuccess();
     }
 
