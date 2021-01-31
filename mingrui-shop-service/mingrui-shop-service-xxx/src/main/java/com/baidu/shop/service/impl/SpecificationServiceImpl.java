@@ -77,9 +77,23 @@ public class SpecificationServiceImpl extends BaseApiService implements Specific
     }
 
     @Transactional
-    @Override
+    @Override//新增规格参数
     public Result<JSONObject> saveSpecParam(SpecParamDTO specParamDTO) {
         specParamMapper.insertSelective(BaiduBeanUtil.copyProperties(specParamDTO,SpecParamEntity.class));
+        return this.setResultSuccess();
+    }
+
+    @Transactional
+    @Override//修改规格参数
+    public Result<JSONObject> updateSpecParam(SpecParamDTO specParamDTO) {
+        specParamMapper.updateByPrimaryKey(BaiduBeanUtil.copyProperties(specParamDTO,SpecParamEntity.class));
+        return this.setResultSuccess();
+    }
+
+    @Transactional
+    @Override//删除规格参数
+    public Result<JSONObject> deleteSpecParam(Integer id) {
+        specParamMapper.deleteByPrimaryKey(id);
         return this.setResultSuccess();
     }
 }
