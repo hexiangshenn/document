@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.JsonObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public interface GoodsService {
 
     @ApiOperation(value = "获取spu信息")
     @GetMapping(value = "goods/getSpuInfo")
-    Result<List<SpuDTO>> getSpuInfo(SpuDTO spuDTO);
+    Result<List<SpuDTO>> getSpuInfo(@SpringQueryMap SpuDTO spuDTO);
 
     @ApiOperation(value = "新建商品")
     @PostMapping(value = "goods/save")
@@ -35,11 +36,11 @@ public interface GoodsService {
 
     @ApiOperation(value = "获取spu详细信息")
     @GetMapping(value = "goods/getSpuDetailBySpu")
-    public Result<SpuDetailEntity> getSpuDetailBySpu(Integer spuId);
+    public Result<SpuDetailEntity> getSpuDetailBySpu(@RequestParam Integer spuId);
 
     @ApiOperation(value = "获取sku信息")
     @GetMapping(value = "goods/getSkuBySpuId")
-    Result<SkuDTO> getSkuBySpuId(Integer spuId);
+    Result<List<SkuDTO>> getSkuBySpuId(@RequestParam Integer spuId);
 
     @ApiOperation(value = "修改商品")
     @PutMapping(value = "goods/save")

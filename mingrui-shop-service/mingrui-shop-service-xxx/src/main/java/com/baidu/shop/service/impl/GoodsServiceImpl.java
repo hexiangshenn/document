@@ -120,7 +120,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     }
 
     @Override
-    public Result<SkuDTO> getSkuBySpuId(Integer spuId) {
+    public Result<List<SkuDTO>> getSkuBySpuId(Integer spuId) {
         List<SkuDTO> list = skuMapper.selectSkuAndStockBySpuId(spuId);
 
         return this.setResultSuccess(list);
