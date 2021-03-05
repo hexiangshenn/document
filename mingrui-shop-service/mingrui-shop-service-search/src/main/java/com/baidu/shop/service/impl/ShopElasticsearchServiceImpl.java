@@ -13,6 +13,7 @@ import com.baidu.shop.feign.GoodsFeign;
 import com.baidu.shop.feign.SpecificationFeign;
 import com.baidu.shop.service.ShopElasticsearchService;
 import com.baidu.shop.service.SpecificationService;
+import com.baidu.shop.status.HTTPStatus;
 import com.baidu.shop.utils.HighlightUtil;
 import com.baidu.shop.utils.JSONUtil;
 import com.google.gson.JsonObject;
@@ -26,6 +27,8 @@ import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.util.StringUtils;
+import org.springframework.web.HttpMediaTypeException;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
@@ -51,20 +54,27 @@ public class ShopElasticsearchServiceImpl extends BaseApiService implements Shop
     private ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     @Override
-    public Result<List<GoodsDoc>> search(String search) {
+    public Result<List<GoodsDoc>> search(String search,@RequestParam Integer page) {
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         nativeSearchQueryBuilder.withQuery(
                 QueryBuilders.multiMatchQuery(search,"title","brandName","categoryName")
         );
         //分页
-        nativeSearchQueryBuilder.withPageable(PageRequest.of(0,10));
+        nativeSearchQueryBuilder.withPageable(PageRequest.of(page -1,10));
         //高亮
         nativeSearchQueryBuilder.withHighlightBuilder(HighlightUtil.getHighlightBuilder("title"));
         SearchHits<GoodsDoc> searchHits = elasticsearchRestTemplate.search(nativeSearchQueryBuilder.build(), GoodsDoc.class);
 
         List<GoodsDoc> highlightList = HighlightUtil.getHighlightList(searchHits.getSearchHits());
 
-        return this.setResultSuccess(highlightList);
+        long total = searchHits.getTotalHits();
+        long totalPage = Double.valueOf(Math.ceil(Double.valueOf(total) / 10)).longValue();
+
+        Map<String,Object> msgMap = new HashMap<>();
+        msgMap.put("total",total);
+        msgMap.put("totalPage",totalPage);
+
+        return this.setResult(HTTPStatus.OK,JSONUtil.toJsonString(msgMap),highlightList);
     }
 
     @Override
