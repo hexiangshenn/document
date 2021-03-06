@@ -33,4 +33,8 @@ public interface CategoryService {
     @ApiOperation(value = "删除")
     @DeleteMapping(value = "category/del")
     Result<JsonObject>deleteById(Integer id);
+
+    @ApiOperation(value = "通过id集合查询分类信息")
+    @GetMapping(value = "category/getCateByIds")
+    Result<List<CategoryEntity>> getCateByIds(@RequestParam String cateIds);
 }
