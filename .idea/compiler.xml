@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mingrui-shop-basic-upload-server" />
+        <module name="mingrui-shop-service-api-template" />
         <module name="mingrui-shop-common-core" />
         <module name="mingrui-shop-service-xxx" />
         <module name="mingrui-shop-service-search" />
         <module name="mingrui-shop-basic-eureka-server" />
+        <module name="mingrui-shop-service-template" />
         <module name="mingrui-shop-service-api-xxx" />
         <module name="mingrui-shop-basic-zuul-server" />
         <module name="mingrui-shop-service-api-search" />
@@ -28,8 +30,10 @@
       <module name="mingrui-shop-service" options="-parameters" />
       <module name="mingrui-shop-service-api" options="-parameters" />
       <module name="mingrui-shop-service-api-search" options="-parameters" />
+      <module name="mingrui-shop-service-api-template" options="-parameters" />
       <module name="mingrui-shop-service-api-xxx" options="-parameters" />
       <module name="mingrui-shop-service-search" options="-parameters" />
+      <module name="mingrui-shop-service-template" options="-parameters" />
       <module name="mingrui-shop-service-xxx" options="-parameters" />
     </option>
   </component>

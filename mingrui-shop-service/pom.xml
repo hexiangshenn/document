@@ -16,6 +16,7 @@
     <modules>
         <module>mingrui-shop-service-xxx</module>
         <module>mingrui-shop-service-search</module>
+        <module>mingrui-shop-service-template</module>
     </modules>
     <dependencies>
         <!-- SpringBoot-整合Web组件 -->
