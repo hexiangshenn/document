@@ -72,6 +72,26 @@ public class ShopElasticsearchServiceImpl extends BaseApiService implements Shop
     private CategoryFeign categoryFeign;
 
     @Override
+    public Result<JSONObject> saveData(Integer spuId) {
+
+        SpuDTO spuDTO = new SpuDTO();
+        spuDTO.setId(spuId);
+        List<GoodsDoc> goodsDocs = this.esGoodsInfo(spuDTO);
+        elasticsearchRestTemplate.save(goodsDocs.get(0));
+        return this.setResultSuccess();
+    }
+
+    @Override
+    public Result<JSONObject> delData(Integer spuId) {
+
+        GoodsDoc goodsDoc = new GoodsDoc();
+        goodsDoc.setId(spuId.longValue());
+
+        elasticsearchRestTemplate.delete(goodsDoc);
+        return this.setResultSuccess();
+    }
+
+    @Override
     public Result<List<GoodsDoc>> search(String search,Integer page,String filter) {
 
         NativeSearchQueryBuilder nativeSearchQueryBuilder = this.getNativeSearchQueryBuilder(search, page, filter);
@@ -231,14 +251,14 @@ public class ShopElasticsearchServiceImpl extends BaseApiService implements Shop
             indexOperations.createMapping();
         }
 
-        List<GoodsDoc> goodsDocs = this.esGoodsInfo();
+        List<GoodsDoc> goodsDocs = this.esGoodsInfo(new SpuDTO());
         elasticsearchRestTemplate.save(goodsDocs);
         return this.setResultSuccess();
     }
 
     //@Override
-    private List<GoodsDoc> esGoodsInfo() {
-        SpuDTO spuDTO = new SpuDTO();
+    private List<GoodsDoc> esGoodsInfo(SpuDTO spuDTO) {
+        //SpuDTO spuDTO = new SpuDTO();
         /*spuDTO.setPage(1);
         spuDTO.setRows(5);*/
 

@@ -2,6 +2,8 @@ package com.baidu.shop.service.impl;
 
 import com.baidu.shop.base.BaseApiService;
 import com.baidu.shop.base.Result;
+import com.baidu.shop.component.MrRabbitMQ;
+import com.baidu.shop.constant.MqMessageConstant;
 import com.baidu.shop.dto.SkuDTO;
 import com.baidu.shop.dto.SpuDTO;
 import com.baidu.shop.dto.SpuDetailDTO;
@@ -14,6 +16,7 @@ import com.baidu.shop.utils.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,16 +51,18 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     private SkuMapper skuMapper;
     @Resource
     private StockMapper stockMapper;
+    @Autowired
+    private MrRabbitMQ mrRabbitMQ;
 
     //提取重复的 删除sku stock 代码
     private void deleteSkuAndStock (Integer spuId){
-        Example example = new Example(SpuEntity.class);
+        Example example = new Example(SkuEntity.class);
         example.createCriteria().andEqualTo("spuId",spuId);
         List<SkuEntity> skuEntities = skuMapper.selectByExample(example);
-
-        List<Long> skuIdList = skuEntities.stream().map(spuEntity -> spuEntity.getId()).collect(Collectors.toList());
-        skuMapper.deleteByIdList(skuIdList);
-        stockMapper.deleteByIdList(skuIdList);
+        //得到skuId集合
+        List<Long> skuIdList = skuEntities.stream().map(skuEntity -> skuEntity.getId()).collect(Collectors.toList());
+        skuMapper.deleteByIdList(skuIdList);//通过skuId集合删除sku信息
+        stockMapper.deleteByIdList(skuIdList);//通过skuId集合删除stock信息
     }
     //提取重复的 新增sku stock 代码
     private void insertSkuAndStock (SpuDTO spuDTO,Integer spuId,Date date){
@@ -85,6 +90,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
 
         this.deleteSkuAndStock(spuId);
 
+        mrRabbitMQ.send(spuId + "",MqMessageConstant.SPU_ROUT_KEY_DELETE);
         return setResultSuccess();
     }
 
@@ -110,6 +116,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
 
         this.insertSkuAndStock(spuDTO,spuEntity.getId(),date);
 
+        mrRabbitMQ.send(spuDTO.getId() + "",MqMessageConstant.SPU_ROUT_KEY_UPDATE);
         return this.setResultSuccess();
     }
 
@@ -131,7 +138,13 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     @Override
     @Transactional
     public Result<JsonObject> saveGoods(SpuDTO spuDTO) {
-        System.out.println(spuDTO);
+        Integer spuId = this.saveGoodsTransactional(spuDTO);
+        mrRabbitMQ.send(spuId + "", MqMessageConstant.SPU_ROUT_KEY_SAVE);
+        return this.setResultSuccess();
+    }
+
+    @Transactional
+    public Integer saveGoodsTransactional(SpuDTO spuDTO){
         final Date date = new Date();
         //新增spu
         SpuEntity spuEntity = BaiduBeanUtil.copyProperties(spuDTO, SpuEntity.class);
@@ -146,10 +159,9 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
         SpuDetailEntity spuDetailEntity = BaiduBeanUtil.copyProperties(spuDetail, SpuDetailEntity.class);
         spuDetailEntity.setSpuId(spuEntity.getId());
         spuDetailMapper.insertSelective(spuDetailEntity);
-
         //新增sku,sku可能时多条数据
         this.insertSkuAndStock(spuDTO,spuEntity.getId(),date);
-        return this.setResultSuccess();
+        return spuEntity.getId();
     }
 
     @Override
