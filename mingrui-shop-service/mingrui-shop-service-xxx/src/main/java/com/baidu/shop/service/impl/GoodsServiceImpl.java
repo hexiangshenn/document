@@ -110,10 +110,7 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
         example.createCriteria().andEqualTo("spuId",spuEntity.getId());
         List<SkuEntity> skuEntities = skuMapper.selectByExample(example);
 
-        List<Long> skuIdList = skuEntities.stream().map(skuEntity -> skuEntity.getId()).collect(Collectors.toList());
-        skuMapper.deleteByIdList(skuIdList);
-        stockMapper.deleteByIdList(skuIdList);
-
+        this.deleteSkuAndStock(spuEntity.getId());
         this.insertSkuAndStock(spuDTO,spuEntity.getId(),date);
 
         mrRabbitMQ.send(spuDTO.getId() + "",MqMessageConstant.SPU_ROUT_KEY_UPDATE);
