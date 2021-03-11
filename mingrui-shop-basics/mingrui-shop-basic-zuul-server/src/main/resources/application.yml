@@ -6,17 +6,25 @@ spring:
     name: eureka-zuul
 
 zuul:
+  host:
+    connect-timeout-millis: 100000
+    socket-timeout-millis: 100000
+  # 路由前缀
+  prefix: /api
   # 声明路由
   routes:
-    # 路由名称
-    api-xxx:
-      # 声明将所有以/api-ribbon/的请求都转发到eureka-ribbon的服务中
-      path: /api-xxx/**
-      serviceId: xxx-server
-    # 搜索路由
-    api-search:
-      path: /api-search/**
-      serviceId: search-server
+    xxx-server: /manage/**
+    search-server: /search/**
+    user-server: /user-center/**
+#    # 路由名称
+#    api-xxx:
+#      # 声明将所有以/api-ribbon/的请求都转发到eureka-ribbon的服务中
+#      path: /api-xxx/**
+#      serviceId: xxx-server
+#    # 搜索路由
+#    api-search:
+#      path: /api-search/**
+#      serviceId: search-server
 
   # 启用重试
   retryable: true

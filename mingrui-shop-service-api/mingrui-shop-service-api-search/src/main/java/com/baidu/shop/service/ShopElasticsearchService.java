@@ -32,7 +32,7 @@ public interface ShopElasticsearchService {
     Result<JSONObject> saveData(Integer spuId);
 
     @ApiOperation(value = "通过id删除es数据")
-    @DeleteMapping(value = "es/saveData")
+    @DeleteMapping(value = "es/delData")
     Result<JSONObject> delData(Integer spuId);
 
     //ES数据初始化-->索引创建,映射创建,mysql数据同步

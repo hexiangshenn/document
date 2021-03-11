@@ -56,24 +56,29 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
 
     //提取重复的 删除sku stock 代码
     private void deleteSkuAndStock (Integer spuId){
+        System.out.println("spuId="+spuId);
         Example example = new Example(SkuEntity.class);
         example.createCriteria().andEqualTo("spuId",spuId);
         List<SkuEntity> skuEntities = skuMapper.selectByExample(example);
+        System.out.println("skuEntities="+skuEntities);
         //得到skuId集合
         List<Long> skuIdList = skuEntities.stream().map(skuEntity -> skuEntity.getId()).collect(Collectors.toList());
+        System.out.println("skuIdList="+skuIdList);
         skuMapper.deleteByIdList(skuIdList);//通过skuId集合删除sku信息
         stockMapper.deleteByIdList(skuIdList);//通过skuId集合删除stock信息
     }
     //提取重复的 新增sku stock 代码
     private void insertSkuAndStock (SpuDTO spuDTO,Integer spuId,Date date){
-        List<SkuDTO> skuList = spuDTO.getSkus();
-        skuList.stream().forEach(skuDTO -> {
+        List<SkuDTO> skus = spuDTO.getSkus();
+        skus.stream().forEach(skuDTO -> {
+
             SkuEntity skuEntity = BaiduBeanUtil.copyProperties(skuDTO, SkuEntity.class);
             skuEntity.setSpuId(spuId);
             skuEntity.setCreateTime(date);
             skuEntity.setLastUpdateTime(date);
             skuMapper.insertSelective(skuEntity);
 
+            //新增stock
             StockEntity stockEntity = new StockEntity();
             stockEntity.setSkuId(skuEntity.getId());
             stockEntity.setStock(skuDTO.getStock());
@@ -133,7 +138,6 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
 
     //新增!!!!!!!
     @Override
-    @Transactional
     public Result<JsonObject> saveGoods(SpuDTO spuDTO) {
         Integer spuId = this.saveGoodsTransactional(spuDTO);
         mrRabbitMQ.send(spuId + "", MqMessageConstant.SPU_ROUT_KEY_SAVE);
