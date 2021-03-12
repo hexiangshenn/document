@@ -5187,7 +5187,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
     /**
      * @ClassName RunTestEsApplication
      * @Description: TODO
-     * @Author shenyaqi
+     * @Author hexiangshen
      * @Date 2020/9/3
      * @Version V1.0
      **/
@@ -5209,7 +5209,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * @ClassName entity
  * @Description: TODO
- * @Author shenyaqi
+ * @Author hexiangshen
  * @Date 2020/9/3
  * @Version V1.0
  **/
@@ -5362,7 +5362,7 @@ import
 /**
  * @ClassName GoodsEsRepository
  * @Description: TODO
- * @Author shenyaqi
+ * @Author hexiangshen
  * @Date 2020/9/3
  * @Version V1.0
  **/
@@ -5587,7 +5587,7 @@ import java.util.stream.Collectors;
 /**
  * @ClassName ESHighLightUtil
  * @Description: TODO
- * @Author shenyaqi
+ * @Author hexiangshen
  * @Date 2020/9/4
  * @Version V1.0
  **/
@@ -5830,7 +5830,7 @@ import java.util.Map;
 /**
 * @ClassName GoodsDoc
 * @Description: TODO
-* @Author shenyaqi
+* @Author hexiangshen
 * @Date 2020/9/16
 * @Version V1.0
 **/
@@ -5874,7 +5874,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
 * @ClassName ShopElasticsearchServicec
 * @Description: TODO
-* @Author shenyaqi
+* @Author hexiangshen
 * @Date 2020/9/5
 * @Version V1.0
 **/
@@ -5903,7 +5903,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
 * @ClassName MrSwagger2Config
 * @Description: TODO
-* @Author shenyaqi
+* @Author hexiangshen
 * @Date 2020/8/17
 * @Version V1.0
 **/
@@ -5927,7 +5927,7 @@ public class MrSwagger2Config {
             .termsOfServiceUrl("http://www.baidu.com")
             //联系方式-->有String参数的方法但是已经过时，所以不推荐使用
             .contact(new
-            Contact("shenyaqi","baidu.com","shenyaqiii@163.com"))
+            Contact("hexiangshen","baidu.com","hexiangshenii@163.com"))
             //版本
             .version("v1.0")
             //项目描述
@@ -5964,7 +5964,7 @@ import java.util.stream.Collectors;
 /**
 * @ClassName ESHighLightUtil
 * @Description: TODO
-* @Author shenyaqi
+* @Author hexiangshen
 * @Date 2021/3/1
 * @Version V1.0
 **/
@@ -6065,7 +6065,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 /**
 * @ClassName RunSearchServerApplication
 * @Description: TODO
-* @Author shenyaqi
+* @Author hexiangshen
 * @Date 2020/9/16
 * @Version V1.0
 **/
@@ -6092,7 +6092,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 /**
 * @ClassName GoodsFeign
 * @Description: TODO
-* @Author shenyaqi
+* @Author hexiangshen
 * @Date 2020/9/5
 * @Version V1.0
 **/
@@ -6119,7 +6119,7 @@ import java.util.Map;
 /**
 * @ClassName ShopElasticsearchServiceImpl
 * @Description: TODO
-* @Author shenyaqi
+* @Author hexiangshen
 * @Date 2020/9/5
 * @Version V1.0
 **/
@@ -6516,7 +6516,7 @@ import java.util.stream.Collectors;
 /**
 * @ClassName ShopElasticsearchServiceImpl
 * @Description: TODO
-* @Author shenyaqi
+* @Author hexiangshen
 * @Date 2020/9/5
 * @Version V1.0
 **/
@@ -6700,7 +6700,7 @@ org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 /**
 * @ClassName GoodsRepository
 * @Description: TODO
-* @Author shenyaqi
+* @Author hexiangshen
 * @Date 2020/9/6
 * @Version V1.0
 **/
@@ -8396,7 +8396,7 @@ public class MrSwagger2Config {
             .termsOfServiceUrl("http://www.baidu.com")
             //联系方式-->有String参数的方法但是已经过时，所以不推荐使用
             .contact(new
-            Contact("shenyaqi","baidu.com","shenyaqiii@163.com"))
+            Contact("hexiangshen","baidu.com","hexiangshenii@163.com"))
             //版本
             .version("v1.0")
             //项目描述
@@ -12654,7 +12654,7 @@ import java.time.Duration;
 /**
  * @ClassName RedisConfig
  * @Description: TODO
- * @Author shenyaqi
+ * @Author hexiangshen
  * @Date 2021/3/11
  * @Version V1.0
  **/
