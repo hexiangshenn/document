@@ -16,6 +16,7 @@ zuul:
     xxx-server: /manage/**
     search-server: /search/**
     user-server: /user-center/**
+    oauth-server: /oauth-center/**
 #    # 路由名称
 #    api-xxx:
 #      # 声明将所有以/api-ribbon/的请求都转发到eureka-ribbon的服务中
@@ -33,6 +34,8 @@ zuul:
   # 忽略上传服务
   ignored-services:
     -upload-server
+  add-host-header: true
+  sensitive-headers:
   #配置负载
   ribbon:
     ConnectTimeout: 250 # 连接超时时间(ms)
