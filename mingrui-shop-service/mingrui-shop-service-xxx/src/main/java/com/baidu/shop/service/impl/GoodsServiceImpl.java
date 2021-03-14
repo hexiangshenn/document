@@ -54,6 +54,14 @@ public class GoodsServiceImpl extends BaseApiService implements GoodsService {
     @Autowired
     private MrRabbitMQ mrRabbitMQ;
 
+    @Override
+    public Result<SkuEntity> getSkuById(Long skuId) {
+
+        SkuEntity skuEntity = skuMapper.selectByPrimaryKey(skuId);
+
+        return this.setResultSuccess(skuEntity);
+    }
+
     //提取重复的 删除sku stock 代码
     private void deleteSkuAndStock (Integer spuId){
         System.out.println("spuId="+spuId);
